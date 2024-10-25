@@ -23,7 +23,7 @@ const books = [
 
 async function seed(){
 
-	await mongoose.connect(process.env.MONGODB_URI);
+	await mongoose.connect(process.env.MONGODB_URI_PROD);
 
 	for (let b of books) {
 		const newBook = new Book(b)

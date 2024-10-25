@@ -12,7 +12,7 @@ async function main() {
   const app = express();
   app.use(cors());
 
-  await mongoose.connect(process.env.MONGODB_URI);
+  await mongoose.connect(process.env.MONGODB_URI_PROD);
 
   mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
   mongoose.connection.once('open', function() {
