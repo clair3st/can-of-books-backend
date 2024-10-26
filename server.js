@@ -4,15 +4,17 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const Book = require('./book.js')
+const getBooks = require('./handlers/getBooks.js')
+const addBook = require('./handlers/addBook.js')
 const PORT = process.env.PORT || 3001;
 
 
 async function main() {
   const app = express();
   app.use(cors());
+  app.use(express.json());
 
-  await mongoose.connect(process.env.MONGODB_URI_PROD);
+  await mongoose.connect(process.env.IS_DEV == 'true' ? process.env.MONGODB_URI_DEV : process.env.MONGODB_URI_PROD);
 
   mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
   mongoose.connection.once('open', function() {
@@ -21,22 +23,9 @@ async function main() {
 
   app.get('/books', getBooks)
 
-
+  app.post('/books', addBook);
 
   app.listen(PORT, () => console.log(`listening on ${PORT}`));
-
-}
-
-async function getBooks(request, response) {
-
-  try {
-    const bks = await Book.find()
-    response.send(bks)
-
-  } catch (error) {
-    console.error(error);
-    response.status(500).send(error.message);
-  }
 
 }
 
