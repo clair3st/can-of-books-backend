@@ -6,6 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const getBooks = require('./handlers/getBooks.js')
 const addBook = require('./handlers/addBook.js')
+const deleteBook = require('./handlers/deleteBook.js')
 const PORT = process.env.PORT || 3001;
 
 
@@ -25,7 +26,12 @@ async function main() {
 
   app.post('/books', addBook);
 
+  app.delete('/books/:id', deleteBook);
+
+
   app.listen(PORT, () => console.log(`listening on ${PORT}`));
+
+
 
 }
 
