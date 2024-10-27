@@ -1,7 +1,7 @@
 //Prepopulating data
 require('dotenv').config();
 const mongoose = require('mongoose');
-const Book = require('./book.js');
+const Book = require('../models/book.js');
 const books = [
 	{
 		title: 'The Fellowship of the Ring',
@@ -23,7 +23,7 @@ const books = [
 
 async function seed(){
 
-	await mongoose.connect(process.env.MONGODB_URI_PROD);
+	await mongoose.connect(process.env.IS_DEV == 'true' ? process.env.MONGODB_URI_DEV : process.env.MONGODB_URI_PROD);
 
 	for (let b of books) {
 		const newBook = new Book(b)
